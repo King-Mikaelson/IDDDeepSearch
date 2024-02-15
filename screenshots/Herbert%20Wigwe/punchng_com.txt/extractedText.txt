@@ -1,0 +1,839 @@
+
+                
+                    {
+                        "vars": {
+                            "uid": "65637",
+                            "domain": "punchng.com"
+                            "sections": "",
+                            "authors": ""
+                        }
+                    }
+                
+            
+	
+
+    
+    
+
+
+
+     
+
+
+
+
+
+
+
+
+
+    
+        .mobile-only {
+            display: none !important;
+        }
+
+        .sticky-footer-ad .desktop-only {
+            display: flex;
+            transition: height 0.66s ease-out;
+        }
+
+        .breaking-news {
+            /* display: none; */
+            z-index: 9999;
+            top: 10px;
+        }
+        .widget-area {
+            list-style: none;
+        }
+        .widget_custom_html {
+            list-style: none;
+        }
+        .news-section-four a.mobile-footer {
+            display: none;
+        }
+
+        .container{
+            max-width: 90%;
+        }
+
+        .pulsating-circle {
+            position: absolute;
+            /* left: 50%; */
+            /* top: 50%; */
+            transform: translateX(-120%) translateY(5%);
+            width: 20px;
+            height: 20px;
+        }
+
+        .pulsating-circle:before {
+            content: '';
+            position: relative;
+            display: block;
+            width: 150%;
+            height: 150%;
+            box-sizing: border-box;
+            margin-left: -25%;
+            margin-top: -25%;
+            border-radius: 150%;
+            background-color: red;
+            animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .pulsating-circle:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 232px;
+            background-color: #dd0303;
+            animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -0.4s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.33);
+            }
+            80%, 100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse-dot {
+            0% {
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0.8);
+            }
+        }
+
+
+
+
+        /* .desktop-footer {
+            display: flex;
+        } */
+        /* .sticky-footer-ad  {
+            display: flex !important;
+        } */
+
+        @media (max-width: 480px) {
+
+            .container{
+                max-width: 100%;
+            }
+
+            .news-section-four a.mobile-footer {
+                display: flex;
+            }
+            .desktop-footer {
+                display: none;
+            }
+
+            .mobile-only {
+                display: block !important;
+            }
+
+            .sticky-footer-ad .mobile-only {
+                display: flex !important;
+            }
+
+            .desktop-only {
+                display: none !important;
+            }
+
+            .sticky-footer-ad {
+                display: none;
+            }
+
+            .sticky-footer-ad .desktop-only {
+                display: none !important;
+            }
+        }
+
+        .progress {
+            width: 100%;
+            height: 3px;
+            background: #ffff;
+        }
+
+        .bar {
+            height: 3px;
+            background: #ff0100;
+            width: 0%;
+        }
+        .author-summary {
+            border-left: 2px solid red;
+            padding-left: 0.5em;
+            p {
+                font-size: 0.9em;
+                color: grey;
+            } 
+        }
+    
+
+
+    
+     
+        ×
+
+        
+            
+                
+                  
+                  Search
+                
+            
+          
+       
+     
+
+
+    
+        
+            
+                Advertise with us
+                Thursday, February 15, 2024
+            
+        
+    
+
+    
+
+
+    
+        
+    
+    
+    
+        
+        
+            
+            
+                
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+                   
+                
+
+                
+
+                
+
+                    
+                
+            
+            
+                
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                Most Widely Read Newspaper
+            
+            
+                
+                    
+                
+
+                
+                        
+                        Videos
+                
+
+                
+
+
+            
+        
+    
+
+
+
+
+
+
+
+    
+        
+            
+                
+                Home
+News
+AFCON 2023
+Investigations
+Metro Plus
+Videos
+Politics
+Business
+HealthWise
+Editorial
+Columns
+Podcast
+
+		
+	                
+            
+        
+
+                
+            
+                PunchNG Menu:
+                
+            
+            
+                
+                    Video
+                    Spice
+                    Special Features
+                    Education
+                    Sex & Relationship
+                    Interview
+                    Columns
+                    Opinion
+                     Betting 
+                
+            
+        
+    
+
+
+
+
+
+
+    
+                
+                    
+                            
+                    
+                
+            
+    
+        .install-banner {
+            display: none;
+        }
+    
+
+
+    .social-share-section {
+        display: flex;
+        /* position: sticky; */
+        flex-direction: column;
+    }
+
+    .social-share-section .sticky-share-single {
+        display: inline-block;
+        margin-bottom: 1em;
+    }
+
+
+
+
+
+    
+        
+            
+                
+					
+						
+						
+
+
+						
+						
+						
+						
+					
+				            
+
+            
+                
+                                         Chicago court dismisses Atiku’s suit on Tinubu’s records 
+                    
+                        
+                            6th August 2023                        
+                    
+                    
+
+                    
+                                
+                                    
+                                        
+                                        Bola Tinubu & Atiku Abubakar
+                                     
+                                
+                            
+                        
+                    
+
+
+                    
+                        
+                            
+                                By  Godfrey George                            
+                        
+                        
+					Kindly share this story:
+					
+						  
+						
+
+
+						
+						
+						
+						
+					
+				                    
+                                        
+                                A Circuit Court of Cook County, Illinois County, United States of America, has dismissed a lawsuit filed by a presidential candidate of the Peoples Democratic Party in the general elections, requesting President Bola Tinubu’s academic records from the Chicago State University.
+During the campaigns in 2022, Tinubu stated that he had a Bachelor of Science Degree in Business Administration with honours.
+Despite Beverly Poindexter, who is in charge of official transcript requests, enrolment and degree verification at the Office of the Registrar, CSU, affirming Tinubu’s comment, some persons still had some doubts.
+Recently, Atiku filed a suit, seeking to subpoena the university but was said to have, before the date of hearing, withdrawn the case before the court.  
+                                                        
+                                                        
+                                                        
+                                                        
+According to the Circuit Court papers dated July 31, and obtained by Sunday PUNCH on Saturday, Judge Patrick J. Heneghan dismissed the case without prejudice.
+In the judgment, the judge held that the “petitioner’s subpoena in this case is withdrawn and thus Chicago State University will not be deposed pursuant to the subpoena in this case.”  Related News   
+Ruling on the matter which had Atiku as the petitioner and CSU as the respondent, Justice Heneghan said the case was dismissed without prejudice and resolves all matters pending before the court.   (adsbygoogle = window.adsbygoogle || []).push({});     
+Meanwhile, a top-rated business litigation attorney in Chicago, Mr Victor Henderson, has said citizens in the State of Illinois have known Tinubu for decades as a ‘distinguished graduate of Chicago State University and a well-respected international figure in the US.
+In a press statement dated August 2, 2023, Henderson said, “Despite Tinubu’s prominence, Atiku Abubakar and a few of his followers have attempted to illegally access the President’s confidential educational records by filing an improper lawsuit without basic due process or even the simple decency of asking the President himself to release his records.
+“The goal of Abubakar and others, of course, is to stain the President’s character and reputation and to try to steal an election that they lost.
+“The good news for the President and his supporters is that the court dismissed the lawsuit that Abubakar improperly filed to get access to the President’s records.
+“In addition, a leading Chicago State official recently confirmed, again, that the President is a long-time and distinguished alumnus of the university,” part of the statement read.
+                                                     
+                     
+                                                                Godfrey George
+                                                                                     
+                        
+                        
+					Kindly share this story:
+					
+						  
+						
+
+
+						
+						
+						
+						
+					
+				                    
+                    
+                    
+                         All rights reserved. This material, and other digital content on this website, may not be reproduced, published, broadcast, rewritten or redistributed in whole or in part without prior express written permission from PUNCH.
+                        Contact:  theeditor@punchng.com  
+                    
+
+
+                                            
+
+                    
+
+                    
+                        Stay informed and ahead of the curve! Follow The Punch Newspaper on WhatsApp for real-time updates, breaking news, and exclusive content. Don't miss a headline – join now!
+                        Join The Punch Newspapers Channel
+                    
+
+
+
+                   
+
+
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Nigerians can now work and earn US Dollars, acquire premium domains for as low as $1500, earn a profit up to ₦24 million,($17,000),  click here  to start now.
+ 
+
+
+
+Experience the Thrill of Casino Gaming! Play Now at Mozzartbet.ng!
+
+Your Ticket to Unlimited Entertainment and Steading Winnings! Explore  Mozzartbet.ng  Casino Now!
+
+
+                     
+                    
+                    
+                
+
+                
+
+
+            
+            
+
+                    
+                
+                         
+                            
+                        
+                    
+
+                
+                    Latest News
+                
+                
+                    
+                                                        
+                                    
+                                        
+                                             9 minutes ago 
+                                        
+                                         EFCC arrests suspected internet fraudsters in Makurdi 'yahoo academy' 
+                                    
+                                
+
+                                                        
+                                    
+                                        
+                                             1 hour ago 
+                                        
+                                         UPDATED: UK economy enters recession 
+                                    
+                                
+
+                                                        
+                                    
+                                        
+                                             1 hour ago 
+                                        
+                                         TSA: Reps to sanction MDAs over non-compliance, summon CBN, others 
+                                    
+                                
+
+                                                        
+                                    
+                                        
+                                             1 hour ago 
+                                        
+                                         Students loan scheme will keep beneficiaries in permanent debt -ASUU 
+                                    
+                                
+
+                                                        
+                                    
+                                        
+                                             2 hours ago 
+                                        
+                                         Two ASPs dismissed over $3000 extortion in Rivers 
+                                    
+                                
+
+                                            
+                
+
+                
+                
+
+                       (adsbygoogle = window.adsbygoogle || []).push({});   
+                    
+
+                    
+
+                    
+					
+				
+            
+        
+
+                    
+                
+                    
+                        
+                            
+                             Top News 
+                        
+                        
+                            
+                                
+                                    
+                                          
+                                    
+                                     Election petitions wasted Tinubu’s first seven months — PDP spokesman 
+                                    
+                                    February 19, 2022
+                                
+                            
+                            
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             Flying Wigwe, others in bad weather wrong – US aviation lawyer 
+                                        
+                                    
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             Technical glitch threw 14 Ogun communities into darkness – IBEDC 
+                                        
+                                    
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             FG to borrow N2.5tn via bonds – DMO 
+                                        
+                                    
+                                
+                            
+                            
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             Ekpo on ground as PUNCHERS intensify training for anniversary match 
+                                        
+                                    
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             Osimhen missing, Ekong, Aina, Lookman make AFCON XI 
+                                        
+                                    
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             FULL LIST: CAF AFCON Starting XI 
+                                        
+                                    
+                                                            
+                            
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             FULL LIST: 10 countries where Valentine's Day is not celebrated 
+                                        
+                                    
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             EFCC operatives arrest FUTA students in midnight raid 
+                                        
+                                    
+                                                                    
+                                        
+                                              
+                                        
+                                        
+                                             Dead but not buried: Story of Ivory Coast’s AFCON triumph 
+                                        
+                                    
+                                                            
+                        
+                    
+                
+            
+                
+            
+
+                                    
+                
+
+            
+        
+        
+    
+
+
+
+
+        
+            
+                
+                
+                    
+                        News
+Sports
+Metro Plus
+Politics
+Featured
+Latest News
+Business
+Business & Economy
+Opinion
+Entertainment
+Betting
+Auto Famous
+Auto Punch
+Barka Da Sallah
+Barrier Breakers
+Breaking News
+Brexit
+Columns
+Corona
+Anti-corruption
+Biafra
+Boko Haram
+Case Review
+Court News
+Court Trivia
+Campus Champion
+Celebrity
+City round
+Interview
+Panorama
+Opinion
+Special Features
+Spice
+Technology
+Famous Parent
+Education
+Cartoon
+Columns
+Diaspora
+Advertise
+Subscribe
+                    
+                    
+                        
+                            
+                                
+                                
+                            
+                        
+                        
+                              Subscribe
+                        
+                        
+                                                        
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+                         
+                        
+                    
+                
+            
+            
+                
+                    
+                        
+                            punchng.com © 1971- 2024 Punch Nigeria Limited
+                    
+                    
+                        About us
+Advertise with us
+Contact
+                    
+                
+            
+        
+        
+        
+                                    
+        
+    
+    
+
+
+    
+    
+
+    
+        //ELECTION COUNT DOWN
+
+
+        function makeTimer() { 
+
+
+
+            $('.counter').each(function( index ) {
+               var Dday= $('.counter')[index].getAttribute('data-date');
+                var endTime = new Date(Dday);          
+                endTime = (Date.parse(endTime) / 1000);
+                var now = new Date();
+                now = (Date.parse(now) / 1000);
+                var timeLeft = endTime - now;
+                var days = Math.floor(timeLeft / 86400); 
+                var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+                var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+                var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+                if (hours < "10") { hours = "0" + hours; }
+                if (minutes < "10") { minutes = "0" + minutes; }
+                if (seconds < "10") { seconds = "0" + seconds; }
+                $(".day")[index].innerHTML=days + "<span> Days</span>";
+                $(".hour")[index].innerHTML=hours + "<span> Hrs</span>";
+                $(".min")[index].innerHTML=minutes + "<span> Mins</span>";
+                $(".sec")[index].innerHTML=seconds + "<span> Secs</span>";   
+             
+            });
+
+
+
+                
+        }
+
+    setInterval(function() { makeTimer(); }, 1000);
+
+
+    
+    
+    
+
+
+
