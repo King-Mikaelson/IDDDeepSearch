@@ -406,6 +406,7 @@ async function main() {
       console.log(folderName)
       for (const file of folder) {
         const filePath = path.join(folderPath, file);
+        const data = await fs.readFile(filePath, "utf8");
         console.log(filePath);
         // Use path.basename to get the folder name
         const fileName = path.basename(filePath);
@@ -419,29 +420,29 @@ async function main() {
           // Process each array of keywords and create a text file for each folder
             // Define the path to the folder and the file
             if(folderName === "Criminal Records"){
-            resultArray = await filterSentencesAsync(filePath, keywordArrays.criminalRecords);
+            resultArray = await filterSentencesAsync(data, keywordArrays.criminalRecords);
             }else if(folderName === "Corruption"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.corruptionKeywords);
+              resultArray = await filterSentencesAsync(data, keywordArrays.corruptionKeywords);
             }
             else if(folderName === "Bankruptcy"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.bankruptcy);
+              resultArray = await filterSentencesAsync(data, keywordArrays.bankruptcy);
             }
             else if(folderName === "Business"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.familyAndBusiness);
+              resultArray = await filterSentencesAsync(data, keywordArrays.familyAndBusiness);
             }
             else if(folderName === "Family"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.familyAndBusiness);
+              resultArray = await filterSentencesAsync(data, keywordArrays.familyAndBusiness);
             }else if(folderName === "Political Corruption"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.corruptionKeywords);
+              resultArray = await filterSentencesAsync(data, keywordArrays.corruptionKeywords);
             }
             else if(folderName === "Sanctions"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.sanctions);
+              resultArray = await filterSentencesAsync(data, keywordArrays.sanctions);
             }
             else if(folderName === "Political Exposure"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.politicalExposure);
+              resultArray = await filterSentencesAsync(data, keywordArrays.politicalExposure);
             }
             else if(folderName === "Tax Evasion"){
-              resultArray = await filterSentencesAsync(filePath, keywordArrays.taxEvasion);
+              resultArray = await filterSentencesAsync(data, keywordArrays.taxEvasion);
             }
   
             // Create a new text file inside each folder
