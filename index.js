@@ -8,6 +8,7 @@ const fs = require("fs").promises;
 const fsNoPromise = require("fs");
 const path = require("path");
 const nlp = require("compromise");
+// const { Worker } = require("worker_threads");
 
 // Create an instance of Express
 const app = express();
@@ -15,18 +16,40 @@ const port = 3005; // Choose the desired port
 const apiKey = process.env.API_KEY;
 const searchId = process.env.SEARCH_ENGINE_ID;
 const searchArray = [
-  // "Family",
-  // "Business",
+  "Family",
+  "Business",
   "Corruption",
-  // "Tax Evasion",
+  "Tax Evasion",
   "Criminal Records",
-  // "Political Corruption",
-  // "Bankruptcy",
+  "Political Corruption",
+  "Bankruptcy",
   "Political Exposure",
-  // "Sanctions",
+  "Sanctions",
 ];
 const resultsArray = [];
 
+// const workers = [];
+// const pages = [];
+// const completedWorkerProcesses = {};
+
+// const workerCallback = (data) => {
+//   console.log(`[WORKER ${data.index}] Completed: ${Object.values(data)}`);
+//   completedWorkerProcesses[data.index] = data.success;
+//   workers[data.index].postMessage("next");
+//   // console.log("completed worker processes", completedWorkerProcesses);
+// };
+
+// const createWorker = (url, fileUrl, index) => {
+//   const worker = new Worker("./worker.js", {
+//     workerData: { url, fileUrl, index },
+//   });
+//   worker.on("error", (err) => {
+//     throw err;
+//   });
+//   worker.on("message", workerCallback);
+
+//   return worker;
+// };
 function extractName(inputString) {
   // Remove any content in parentheses or after a dash which often includes social media handles or additional info
   let cleanedInput = inputString.replace(/\(.*?\)|-\s.*$/g, "").trim();
@@ -94,7 +117,7 @@ function extractName(inputString) {
 //   }
 // }
 
-async function scrapeSite(url, fileUrl) {
+async function scrapeSite(url, fileUrl,dataType) {
   try {
     debugger;
     const browser = await puppeteer.launch({ headless: true });
@@ -102,21 +125,8 @@ async function scrapeSite(url, fileUrl) {
     await page.goto(url, { waitUntil: "domcontentloaded" });
 
     // Create an output folder for each site dynamically
-    // const outputFolder = path.join(
-    //   __dirname,
-    //   "screenshots",
-    //   getDomainFromUrl(url)
-    // );
-
-    // await fs.mkdir(outputFolder, { recursive: true });
-
-    // Create an output folder for each site dynamically
-    const outputFolder = path.join(fileUrl, getDomainFromUrl(url));
-
-    // Create directory if it doesn't exist
-    await fs.mkdir(outputFolder, { recursive: true });
-
-    // await page.screenshot({ path: path.join(outputFolder, "screenshot.png") });
+    const dataTypeFolder = path.join(fileUrl, dataType);
+      await fs.mkdir(dataTypeFolder, { recursive: true });
 
     // Use setTimeout to introduce a delay
     await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -126,7 +136,7 @@ async function scrapeSite(url, fileUrl) {
     const extractedText = $("body").text();
 
     // Save extracted text to a text file
-    const textFilePath = path.join(outputFolder, "extractedText.txt");
+    const textFilePath = path.join(dataTypeFolder, `${getDomainFromUrl(url)}`);
     await fs.writeFile(textFilePath, extractedText);
 
     console.log(`Scraped from ${url}: ${extractedText}`);
@@ -141,6 +151,7 @@ function getDomainFromUrl(url) {
   const { hostname } = new URL(url);
   return `${hostname.replace(/\./g, "_")}.txt`;
 }
+
 
 async function createIncrementalFolder(basePath, folderName) {
   let folderPath = path.join(basePath, folderName);
@@ -165,15 +176,21 @@ async function filterSentencesAsync(text, keywords) {
 
   // Filter sentences based on keywords
 
+  // const filteredSentences = doc.sentences().filter((sentence) => {
+  //   for (const keyword of keywords) {
+  //     if (sentence.match(keyword).found) {
+  //       return sentence;
+  //     } else {
+  //       continue;
+  //     }
+  //   }
+  // });
+
   const filteredSentences = doc.sentences().filter((sentence) => {
-    for (const keyword of keywords) {
-      if (sentence.match(keyword).found) {
-        return sentence;
-      } else {
-        continue;
-      }
-    }
-  });
+    if (sentence.match(keyword).found) {
+      return sentence;
+    } 
+});
 
   // Extract filtered sentences as an array
 
@@ -363,7 +380,7 @@ async function main(text) {
     "seal",
   ];
 
-  const keywordArrays = [
+  const keywordArrays = {
     corruptionKeywords,
     criminalRecords,
     familyAndBusiness,
@@ -371,7 +388,9 @@ async function main(text) {
     bankruptcy,
     politicalExposure,
     sanctions,
-  ];
+  };
+
+
   const screenshotsFolderPath = path.join(__dirname, "screenshots");
 
   try {
@@ -384,27 +403,54 @@ async function main(text) {
       console.log(folderPath);
       // Use path.basename to get the folder name
       const folderName = path.basename(folderPath);
-
-      console.log("Folder Name:", folderName);
-
-      // Check if the item is a directory
-      const isDirectory = (await fs.stat(folderPath)).isDirectory();
-
-      if (isDirectory) {
-        // Process each array of keywords and create a text file for each folder
-        for (const keywords of keywordArrays) {
-          // Define the path to the folder and the file
-
-          const resultArray = await filterSentencesAsync(folderPath, keywords);
-          // console.log(resultArray);
-
-          // Create a new text file inside each folder
-          const filePath = path.join(
-            folderPath,
-            `new_text_file_${keywords[1]}.txt`
-          );
-          await fs.writeFile(filePath, resultArray.join("\n"));
-          // console.log(`Text file created at ${filePath}`);
+      console.log(folderName)
+      for (const file of folder) {
+        const filePath = path.join(folderPath, file);
+        console.log(filePath);
+        // Use path.basename to get the folder name
+        const fileName = path.basename(filePath);
+        if (!fileName.startsWith("extracted")) continue;
+        console.log("Folder Name:", fileName);
+  
+        // Check if the item is a directory
+        const isDirectory = (await fs.stat(filePath)).isDirectory();
+        let resultArray
+        if (isDirectory) {
+          // Process each array of keywords and create a text file for each folder
+            // Define the path to the folder and the file
+            if(folderName === "Criminal Records"){
+            resultArray = await filterSentencesAsync(filePath, keywordArrays.criminalRecords);
+            }else if(folderName === "Corruption"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.corruptionKeywords);
+            }
+            else if(folderName === "Bankruptcy"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.bankruptcy);
+            }
+            else if(folderName === "Business"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.familyAndBusiness);
+            }
+            else if(folderName === "Family"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.familyAndBusiness);
+            }else if(folderName === "Political Corruption"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.corruptionKeywords);
+            }
+            else if(folderName === "Sanctions"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.sanctions);
+            }
+            else if(folderName === "Political Exposure"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.politicalExposure);
+            }
+            else if(folderName === "Tax Evasion"){
+              resultArray = await filterSentencesAsync(filePath, keywordArrays.taxEvasion);
+            }
+  
+            // Create a new text file inside each folder
+            const extractedFilePath = path.join(
+              filePath,
+              `extracted.json`
+            );
+            await fs.writeFile(extractedFilePath, resultArray.join("\n"));
+            // console.log(`Text file created at ${filePath}`);
         }
       }
     }
@@ -442,13 +488,13 @@ async function main(text) {
 // // Call the asynchronous function
 // readFileAsync();
 
-app.get("/search/:id", async (req, res) => {
-  // console.log(req.params.id);
-  // Check if the required parameter is missing
-  if (!req.params.id) {
-    return res.status(400).json({ error: "Missing required parameter: id" });
+app.get("/search", async (req, res) => {
+  console.log(req.query.searchItem);
+    // Check if the required parameter is missing
+  if (!req.query.searchItem) {
+    return res.status(400).json({ error: "Missing required parameter:searchItem" });
   }
-  const searchTerm = req.params.id;
+  const searchTerm = req.query.searchItem;
   // const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${searchTerm}`;
   // console.log(apiKey);
   // for (const query of searchArray) {
@@ -554,53 +600,123 @@ app.get("/search/:id", async (req, res) => {
   try {
     // Use Promise.all to handle both API calls and scraping
     let outputFolder;
-    await Promise.all(
-      searchArray.map(async (query) => {
-        const encodedSearchTerm = encodeURIComponent(searchTerm);
-        outputFolder = path.join(__dirname, "screenshots", encodedSearchTerm);
-        // Create directory if it doesn't exist
-        if (!fsNoPromise.existsSync(outputFolder)) {
-          await fs.mkdir(outputFolder, { recursive: true });
-        }
 
-        const encodedQuery = encodeURIComponent(query);
-        const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${encodedSearchTerm}%20${encodedQuery}`;
+    const shallowSearchPromises = [];
+    const keyQuery = {};
 
-        console.log(url);
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
+    outputFolder = path.join(__dirname, "screenshots", encodedSearchTerm);
+  await fs.rm(outputFolder, { recursive: true, force: true });
+    // // Create directory if it doesn't exist
+    // if (!fsNoPromise.existsSync(outputFolder)) {
+    //   await fs.mkdir(outputFolder, { recursive: true });
+    // }
+    const encodedKeywordTerm =  encodeURIComponent(`${searchTerm} born on 29 March 1952`);
+    await fs.mkdir(outputFolder, { recursive: true });
+    for (const index in searchArray) {
+      const encodedQuery = encodeURIComponent(searchArray[index]);
+      const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${encodedKeywordTerm}%20${encodedQuery}`;
+      shallowSearchPromises.push(axios.get(url));
+      keyQuery[index] = searchArray[index];
+    }
 
-        const apiResponse = await axios.get(url);
-        const responseData = apiResponse.data;
+    const shallowSearchResults = await Promise.all(shallowSearchPromises);
+    console.log(shallowSearchResults);
+    let combinedArray = [];
+    for (const index in shallowSearchResults) {
+      const responseData = shallowSearchResults[index];
+      const searchResults = responseData.data.items
+        .map((profile) => {
+          return {
+            fullNames: extractName(profile.title),
+            sourceLink: profile.link,
+            pictures: [
+              ...(Boolean(profile?.pagemap?.cse_thumbnail) === true
+                ? profile?.pagemap?.cse_thumbnail?.map((data) => data.src)
+                : []),
+              ...(Boolean(profile?.["pagemap"]?.["metatags"]) === true
+                ? profile?.["pagemap"]?.["metatags"].map(
+                    (data) => data["og:image"]
+                  )
+                : []),
+              ...(Boolean(profile?.pagemap?.cse_image) === true
+                ? profile?.pagemap?.cse_image?.map((data) => data.src)
+                : []),
+            ],
+            searchItemType: profile.searchItemType,
+          };
+        })
+        .filter((data) => data.fullNames !== null)
+        .map((data) => {
+          return {
+            ...data,
+            fullNames: data.fullNames,
+            dataType: keyQuery[index],
+          };
+        });
 
-        const searchResults = responseData.items
-          .map((profile) => {
-            return {
-              fullNames: extractName(profile.title),
-              sourceLink: profile.link,
-              pictures: [
-                ...(Boolean(profile.pagemap.cse_thumbnail) === true
-                  ? profile.pagemap.cse_thumbnail.map((data) => data.src)
-                  : []),
-                ...(Boolean(profile?.["pagemap"]["metatags"]) === true
-                  ? profile?.["pagemap"]["metatags"].map(
-                      (data) => data["og:image"]
-                    )
-                  : []),
-                ...(Boolean(profile.pagemap.cse_image) === true
-                  ? profile.pagemap.cse_image?.map((data) => data.src)
-                  : []),
-              ],
-              searchItemType: profile.searchItemType,
-            };
-          })
-          .filter((data) => data.fullNames !== null)
-          .map((data) => {
-            return { ...data, fullNames: data.fullNames };
-          });
+      combinedArray = [...combinedArray, ...searchResults];
+    }
+    for (const index in combinedArray) {
+      const obj = combinedArray[index];
+      if (index > 10){
+        break
+      }
+      if (obj.sourceLink) {
+        scrapeSite(obj.sourceLink, outputFolder, obj.dataType);
+        // console.log(obj)
+      }
+    }
+    
+    console.log(combinedArray.length)
+    res.status(200).json(combinedArray);
+    return;
 
-        resultsArray.push(searchResults);
-        console.log(`API call for '${query}' successful`);
-      })
-    );
+    searchArray.map(async (query) => {
+      const encodedSearchTerm = encodeURIComponent(searchTerm);
+      outputFolder = path.join(__dirname, "screenshots", encodedSearchTerm);
+      // Create directory if it doesn't exist
+      if (!fsNoPromise.existsSync(outputFolder)) {
+        await fs.mkdir(outputFolder, { recursive: true });
+      }
+
+      const encodedQuery = encodeURIComponent(query);
+      const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${encodedSearchTerm}%20${encodedQuery}`;
+
+      console.log(url);
+
+      const apiResponse = await axios.get(url);
+      const responseData = apiResponse.data;
+
+      const searchResults = responseData.items
+        .map((profile) => {
+          return {
+            fullNames: extractName(profile.title),
+            sourceLink: profile.link,
+            pictures: [
+              ...(Boolean(profile.pagemap.cse_thumbnail) === true
+                ? profile.pagemap.cse_thumbnail.map((data) => data.src)
+                : []),
+              ...(Boolean(profile?.["pagemap"]["metatags"]) === true
+                ? profile?.["pagemap"]["metatags"].map(
+                    (data) => data["og:image"]
+                  )
+                : []),
+              ...(Boolean(profile.pagemap.cse_image) === true
+                ? profile.pagemap.cse_image?.map((data) => data.src)
+                : []),
+            ],
+            searchItemType: profile.searchItemType,
+          };
+        })
+        .filter((data) => data.fullNames !== null)
+        .map((data) => {
+          return { ...data, fullNames: data.fullNames };
+        });
+
+      resultsArray.push(searchResults);
+      console.log(`API call for '${query}' successful`);
+    });
 
     // Iterate through the array of arrays and scrape each site
     // for (const array of resultsArray) {
