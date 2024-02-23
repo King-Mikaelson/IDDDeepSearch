@@ -153,21 +153,21 @@ function getDomainFromUrl(url) {
 }
 
 
-async function createIncrementalFolder(basePath, folderName) {
-  let folderPath = path.join(basePath, folderName);
+// async function createIncrementalFolder(basePath, folderName) {
+//   let folderPath = path.join(basePath, folderName);
 
-  let index = 1;
-  while (true) {
-    try {
-      await fs.mkdir(folderPath);
-      return folderPath; // Return if the folder is created successfully
-    } catch (error) {
-      // Folder already exists, try with an incremented index
-      folderPath = path.join(basePath, `${folderName}_${index}`);
-      index++;
-    }
-  }
-}
+//   let index = 1;
+//   while (true) {
+//     try {
+//       await fs.mkdir(folderPath);
+//       return folderPath; // Return if the folder is created successfully
+//     } catch (error) {
+//       // Folder already exists, try with an incremented index
+//       folderPath = path.join(basePath, `${folderName}_${index}`);
+//       index++;
+//     }
+//   }
+// }
 
 async function filterSentencesAsync(text, keywords) {
   // Tokenize the text
@@ -199,7 +199,7 @@ async function filterSentencesAsync(text, keywords) {
 
 // Example usage
 
-async function main(text) {
+async function main() {
   const corruptionKeywords = [
     "Allege",
     "accuse",
@@ -495,107 +495,6 @@ app.get("/search", async (req, res) => {
     return res.status(400).json({ error: "Missing required parameter:searchItem" });
   }
   const searchTerm = req.query.searchItem;
-  // const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${searchTerm}`;
-  // console.log(apiKey);
-  // for (const query of searchArray) {
-  //   const encodedSearchTerm = encodeURIComponent(searchTerm);
-  //   const encodedQuery = encodeURIComponent(query);
-  //   const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${encodedSearchTerm}%20${encodedQuery}`;
-  //   console.log(url);
-  //   try {
-  //     // Make a GET request to the API
-  //     const apiResponse = await axios.get(url);
-  //     // Extract the data from the response
-  //     const responseData = apiResponse.data;
-  //     // console.log(responseData.items);
-  //     const searchResults = responseData?.items
-  //       .map((profile) => {
-  //         return {
-  //           fullNames: extractName(profile.title),
-  //           sourceLink: profile.link,
-  //           pictures: [
-  //             ...(Boolean(profile.pagemap.cse_thumbnail) === true
-  //               ? profile.pagemap.cse_thumbnail.map((data) => data.src)
-  //               : []),
-  //             ...(Boolean(profile?.["pagemap"]["metatags"]) === true
-  //               ? profile?.["pagemap"]["metatags"].map(
-  //                   (data) => data["og:image"]
-  //                 )
-  //               : []),
-  //             ...(Boolean(profile.pagemap.cse_image) === true
-  //               ? profile.pagemap.cse_image?.map((data) => data.src)
-  //               : []),
-  //           ],
-  //           searchItemType: profile.searchItemType,
-  //         };
-  //       })
-  //       .filter((data) => data.fullNames !== null)
-  //       .map((data) => {
-  //         return { ...data, fullNames: data.fullNames };
-  //       });
-  //     // Return the data as the endpoint response
-  //     // res.json(responseData);
-  //     // res.status(200).json(responseData.items);
-  //     resultsArray.push(searchResults);
-  //     console.log(`API call for '${query}' successful`);
-  //   } catch (error) {
-  //     console.error(`Error for '${query}': ${error.message}`);
-  //     console.error("Error making API request:", error.message);
-  //     // Return an error response if something goes wrong
-  //     res.status(500).json({ error: "Internal Server Error" });
-  //   }
-  // }
-
-  // Iterate through the array of arrays and scrape each site
-  // for (const array of resultsArray) {
-  //   for (const obj of array) {
-  //     console.log(obj.sourceLink);
-  //     if (obj.sourcelink) {
-  //       await scrapeSite(obj.sourceLink);
-  //     }
-  //   }
-  // }
-
-  // res.status(200).json(resultsArray);
-
-  // try {
-  //   // Make a GET request to the API
-  //   const apiResponse = await axios.get(url);
-  //   // Extract the data from the response
-  //   const responseData = apiResponse.data;
-  //   console.log(responseData.items);
-  //   const searchResults = responseData.items
-  //     .map((profile) => {
-  //       return {
-  //         fullNames: extractName(profile.title),
-  //         sourceLink: profile.link,
-  //         pictures: [
-  //           ...(Boolean(profile.pagemap.cse_thumbnail) === true
-  //             ? profile.pagemap.cse_thumbnail.map((data) => data.src)
-  //             : []),
-  //           ...(Boolean(profile?.["pagemap"]["metatags"]) === true
-  //             ? profile?.["pagemap"]["metatags"].map((data) => data["og:image"])
-  //             : []),
-  //           ...(Boolean(profile.pagemap.cse_image) === true
-  //             ? profile.pagemap.cse_image?.map((data) => data.src)
-  //             : []),
-  //         ],
-  //         searchItemType: profile.searchItemType,
-  //       };
-  //     })
-  //     .filter((data) => data.fullNames !== null)
-  //     .map((data) => {
-  //       return { ...data, fullNames: data.fullNames };
-  //     });
-  //   // Return the data as the endpoint response
-  //   // res.json(responseData);
-  //   // res.status(200).json(responseData.items);
-  //   res.status(200).json(searchResults);
-  // } catch (error) {
-  //   console.error("Error making API request:", error.message);
-  //   // Return an error response if something goes wrong
-  //   res.status(500).json({ error: "Internal Server Error" });
-  // }
 
   try {
     // Use Promise.all to handle both API calls and scraping
@@ -668,55 +567,54 @@ app.get("/search", async (req, res) => {
       }
     }
     
-    console.log(combinedArray.length)
     res.status(200).json(combinedArray);
-    return;
+    await main();
 
-    searchArray.map(async (query) => {
-      const encodedSearchTerm = encodeURIComponent(searchTerm);
-      outputFolder = path.join(__dirname, "screenshots", encodedSearchTerm);
-      // Create directory if it doesn't exist
-      if (!fsNoPromise.existsSync(outputFolder)) {
-        await fs.mkdir(outputFolder, { recursive: true });
-      }
+    // searchArray.map(async (query) => {
+    //   const encodedSearchTerm = encodeURIComponent(searchTerm);
+    //   outputFolder = path.join(__dirname, "screenshots", encodedSearchTerm);
+    //   // Create directory if it doesn't exist
+    //   if (!fsNoPromise.existsSync(outputFolder)) {
+    //     await fs.mkdir(outputFolder, { recursive: true });
+    //   }
 
-      const encodedQuery = encodeURIComponent(query);
-      const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${encodedSearchTerm}%20${encodedQuery}`;
+    //   const encodedQuery = encodeURIComponent(query);
+    //   const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchId}&q=${encodedSearchTerm}%20${encodedQuery}`;
 
-      console.log(url);
+    //   console.log(url);
 
-      const apiResponse = await axios.get(url);
-      const responseData = apiResponse.data;
+    //   const apiResponse = await axios.get(url);
+    //   const responseData = apiResponse.data;
 
-      const searchResults = responseData.items
-        .map((profile) => {
-          return {
-            fullNames: extractName(profile.title),
-            sourceLink: profile.link,
-            pictures: [
-              ...(Boolean(profile.pagemap.cse_thumbnail) === true
-                ? profile.pagemap.cse_thumbnail.map((data) => data.src)
-                : []),
-              ...(Boolean(profile?.["pagemap"]["metatags"]) === true
-                ? profile?.["pagemap"]["metatags"].map(
-                    (data) => data["og:image"]
-                  )
-                : []),
-              ...(Boolean(profile.pagemap.cse_image) === true
-                ? profile.pagemap.cse_image?.map((data) => data.src)
-                : []),
-            ],
-            searchItemType: profile.searchItemType,
-          };
-        })
-        .filter((data) => data.fullNames !== null)
-        .map((data) => {
-          return { ...data, fullNames: data.fullNames };
-        });
+    //   const searchResults = responseData.items
+    //     .map((profile) => {
+    //       return {
+    //         fullNames: extractName(profile.title),
+    //         sourceLink: profile.link,
+    //         pictures: [
+    //           ...(Boolean(profile.pagemap.cse_thumbnail) === true
+    //             ? profile.pagemap.cse_thumbnail.map((data) => data.src)
+    //             : []),
+    //           ...(Boolean(profile?.["pagemap"]["metatags"]) === true
+    //             ? profile?.["pagemap"]["metatags"].map(
+    //                 (data) => data["og:image"]
+    //               )
+    //             : []),
+    //           ...(Boolean(profile.pagemap.cse_image) === true
+    //             ? profile.pagemap.cse_image?.map((data) => data.src)
+    //             : []),
+    //         ],
+    //         searchItemType: profile.searchItemType,
+    //       };
+    //     })
+    //     .filter((data) => data.fullNames !== null)
+    //     .map((data) => {
+    //       return { ...data, fullNames: data.fullNames };
+    //     });
 
-      resultsArray.push(searchResults);
-      console.log(`API call for '${query}' successful`);
-    });
+    //   resultsArray.push(searchResults);
+    //   console.log(`API call for '${query}' successful`);
+    // });
 
     // Iterate through the array of arrays and scrape each site
     // for (const array of resultsArray) {
@@ -728,21 +626,21 @@ app.get("/search", async (req, res) => {
     //   }
     // }
 
-    const screenshotPromises = [];
-    for (const array of resultsArray) {
-      for (const obj of array) {
-        console.log(obj.sourceLink);
-        if (obj.sourceLink) {
-          screenshotPromises.push(scrapeSite(obj.sourceLink, outputFolder));
-        }
-      }
-    }
+    // const screenshotPromises = [];
+    // for (const array of resultsArray) {
+    //   for (const obj of array) {
+    //     console.log(obj.sourceLink);
+    //     if (obj.sourceLink) {
+    //       screenshotPromises.push(scrapeSite(obj.sourceLink, outputFolder));
+    //     }
+    //   }
+    // }
 
-    await Promise.all(screenshotPromises);
+    // await Promise.all(screenshotPromises);
     // main();
 
     // Respond with the final results if needed
-    res.status(200).json(resultsArray);
+    // res.status(200).json(resultsArray);
   } catch (error) {
     console.error("Error during API calls:", error);
     res.status(500).json({ error: "Internal Server Error" });
